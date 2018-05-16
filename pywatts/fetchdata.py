@@ -1,29 +1,33 @@
 from pypvwatts import PVWatts
-from .models import *
+from pywatts.models import *
 from pathlib import Path
 
 
 db = SqliteDatabase('pywatts.db')
 
 
-def fetch_data(from_long, to_long, from_lat, to_lat, step_size=1):
+def fetch_data(from_lon, to_lon, from_lat, to_lat, step_size=1):
     my_api_key = ''
     with open(str(Path.home()) + '/pvwatts_api_key.txt', 'r') as file:
-        api_key = file.readline()
+        my_api_key = file.readline()
+        # Strip newline
+        my_api_key = my_api_key[:-1]
 
     p = PVWatts(api_key=my_api_key)
 
-    result_list = []
+    results = []
 
-    for longitude in range(from_long, to_long, step_size):
+    print(range(from_lon, to_lon))
+
+    for longitude in range(from_lon, to_lon, step_size):
         for latitude in range(from_lat, to_lat, step_size):
-            result_list.append(p.request(
-                system_capacity=4, module_type=1, array_type=1, format='json',
-                azimuth=190, tilt=30, dataset='intl', timeframe='hourly',
-                losses=13, lon=longitude, lat=latitude
+            results.append(p.request(
+                format='JSON', system_capacity=4, module_type=1, array_type=1,
+                azimuth=190, tilt=40, dataset='intl', timeframe='hourly',
+                losses=10, lon=longitude, lat=latitude
             ))
 
-    return result_list
+    return results
 
 
 def store_data(db_name, result_list):
