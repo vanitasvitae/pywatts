@@ -33,8 +33,11 @@ def store_data(result_list):
         db.create_tables([WeatherStation, Result])
 
     for result in result_list:
+        if result.errors:
+            continue
+
         if WeatherStation.select().where(WeatherStation.id == result.station_info['location']).exists():
-            print("Data for station %s already in database. Skipping." % result.station_info.location)
+            print("Data for station %s already in database. Skipping." % result.station_info['location'])
             continue
 
         station = WeatherStation.create(
@@ -53,3 +56,5 @@ def store_data(result_list):
             temperature=result.outputs['tamb'],
             wind_speed=result.outputs['wspd']
         )
+
+    db.close()
