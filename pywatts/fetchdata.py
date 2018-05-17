@@ -17,8 +17,6 @@ def fetch_data(from_lon, to_lon, from_lat, to_lat, step_size=1):
 
     results = []
 
-    print(range(from_lon, to_lon))
-
     for longitude in range(from_lon, to_lon, step_size):
         for latitude in range(from_lat, to_lat, step_size):
             results.append(p.request(
