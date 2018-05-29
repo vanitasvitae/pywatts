@@ -5,7 +5,7 @@ class Net:
     regressor = None
 
 
-    def net(self, feature_cols):
+    def __init__(self, feature_cols):
         self.regressor = tf.estimator.DNNRegressor(feature_columns=feature_cols,
                                                    hidden_units=[50, 50],
                                                    model_dir='tf_pywatts_model')
