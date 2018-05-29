@@ -1,3 +1,4 @@
+import pandas as pd
 from peewee import *
 from playhouse import sqlite_ext
 from playhouse.sqlite_ext import SqliteExtDatabase
@@ -27,3 +28,23 @@ class Result(Model):
     class Meta:
         database = db
 
+
+def rows_to_df(indices):
+    temps = []
+    dcs = []
+    winds = []
+
+    db.connect()
+
+    for result in Result.select().where(Result.id << indices):
+        temps += result.temperature
+        dcs += result.dc_output
+        winds += result.wind_speed
+
+    db.close()
+
+    return pd.DataFrame(
+        {'temp': temps,
+         'dc': dcs,
+         'wind': winds
+         })
