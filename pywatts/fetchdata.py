@@ -17,11 +17,15 @@ def fetch_data(from_lon, to_lon, from_lat, to_lat, step_size=1):
 
     for longitude in range(from_lon, to_lon, step_size):
         for latitude in range(from_lat, to_lat, step_size):
-            results.append(p.request(
-                format='JSON', system_capacity=4, module_type=1, array_type=1,
-                azimuth=190, tilt=40, dataset='intl', timeframe='hourly',
-                losses=10, lon=longitude, lat=latitude
-            ))
+            try:
+                results.append(p.request(
+                    format='JSON', system_capacity=4, module_type=1, array_type=1,
+                    azimuth=190, tilt=40, dataset='intl', timeframe='hourly',
+                    losses=10, lon=longitude, lat=latitude
+                ))
+            except:
+                print("Could not fetch all data")
+                return results
 
     return results
 
