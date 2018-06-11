@@ -108,3 +108,6 @@ venv.bak/
 
 # PyCharm
 .idea/
+
+# Tensorflow Model
+tf_pywatts_model/
