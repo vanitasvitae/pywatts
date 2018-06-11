@@ -1,6 +1,8 @@
+import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as pp
 import pywatts.neural
+from sklearn.metrics import explained_variance_score, mean_absolute_error, median_absolute_error
 
 from sklearn.model_selection import train_test_split
 
@@ -32,4 +34,19 @@ def plot_training(evaluation):
     for e in evaluation:
         loss.append(e['loss'])
     pp.plot(loss)
+
+
+def predict(X_pred):
+    pred = n.predict1h(X_pred)
+    predictions = np.array([p['predictions'][0] for p in pred])
+    return predictions
+
+
+def eval_prediction(prediction):
+    print("The Explained Variance: %.2f" % explained_variance_score(
+        y_test, prediction))
+    print("The Mean Absolute Error: %.2f volt dc" % mean_absolute_error(
+        y_test, prediction))
+    print("The Median Absolute Error: %.2f volt dc" % median_absolute_error(
+        y_test, prediction))
 
