@@ -21,9 +21,9 @@ class Net:
     def train(self, training_data, training_results, steps):
         self.__regressor.train(input_fn=pywatts_input_fn(training_data, y=training_results, num_epochs=None, shuffle=True), steps=steps)
 
-    def evaluate(self, eval_data):
-        self.__regressor.evaluate(input_fn=self.pywatts_input_fn(eval_data, num_epochs=1, shuffle=False), steps=1)
+    def evaluate(self, eval_data, eval_results):
+        return self.__regressor.evaluate(input_fn=pywatts_input_fn(eval_data, y=eval_results, num_epochs=1, shuffle=False), steps=1)
 
     def predict1h(self, df):
         df = df.drop(['month', 'day', 'hour'])
-        return self.__regressor.predict(input_fn=self.pywatts_input_fn(df, num_epochs=1, shuffle=False))
+        return self.__regressor.predict(input_fn=pywatts_input_fn(df, num_epochs=1, shuffle=False))
