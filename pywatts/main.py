@@ -35,7 +35,7 @@ def train(steps=100):
     for i in range(steps):
         n.train(X_train, y_train, steps=400)
         evaluation.append(n.evaluate(X_val, y_val))
-        print("Training %s of %s" % (i, steps))
+        print("Training %s of %s" % ((i+1), steps))
     return evaluation
 
 
