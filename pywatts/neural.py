@@ -1,12 +1,34 @@
+import pandas
 import tensorflow as tf
 
 
-def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=366):
-    return tf.estimator.inputs.pandas_input_fn(x=X,
-                                               y=y,
-                                               num_epochs=num_epochs,
-                                               shuffle=shuffle,
-                                               batch_size=batch_size)
+# def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
+#
+#    return tf.estimator.inputs.pandas_input_fn(x=X,
+#                                               y=y,
+#                                               num_epochs=num_epochs,
+#                                               shuffle=shuffle,
+#                                               batch_size=batch_size)
+
+def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
+    # Create dictionary for features in hour 0 ... 335
+    features = {str(idx): [] for idx in range(336)}
+    dc_values = X['dc'].tolist()
+
+    # Iterate the empty dictionary always adding the idx-th element from the dc_values list
+    for idx, value_list in features.items():
+        value_list.extend(dc_values[int(idx)::336])
+
+    labels = None
+    if y is not None:
+        labels = y['dc'].values
+
+    if labels is None:
+        dataset = tf.data.Dataset.from_tensor_slices(dict(features))
+    else:
+        dataset = tf.data.Dataset.from_tensor_slices((dict(features), labels))
+
+    return dataset.batch(batch_size)
 
 
 class Net:
@@ -19,10 +41,10 @@ class Net:
                                                      model_dir='tf_pywatts_model')
 
     def train(self, training_data, training_results, steps):
-        self.__regressor.train(input_fn=pywatts_input_fn(training_data, y=training_results, num_epochs=None, shuffle=True, batch_size=336), steps=steps)
+        self.__regressor.train(input_fn=lambda: pywatts_input_fn(training_data, y=training_results, num_epochs=None, shuffle=True, batch_size=1), steps=steps)
 
     def evaluate(self, eval_data, eval_results):
-        return self.__regressor.evaluate(input_fn=pywatts_input_fn(eval_data, y=eval_results, num_epochs=1, shuffle=False), steps=1)
+        return self.__regressor.evaluate(input_fn=lambda: pywatts_input_fn(eval_data, y=eval_results, num_epochs=1, shuffle=False), steps=1)
 
     def predict1h(self, predict_data):
-        return self.__regressor.predict(input_fn=pywatts_input_fn(predict_data, num_epochs=1, shuffle=False))
+        return self.__regressor.predict(input_fn=lambda: pywatts_input_fn(predict_data, num_epochs=1, shuffle=False))
