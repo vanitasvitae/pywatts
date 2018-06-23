@@ -2,14 +2,6 @@ import pandas
 import tensorflow as tf
 
 
-# def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
-#
-#    return tf.estimator.inputs.pandas_input_fn(x=X,
-#                                               y=y,
-#                                               num_epochs=num_epochs,
-#                                               shuffle=shuffle,
-#                                               batch_size=batch_size)
-
 def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
     # Create dictionary for features in hour 0 ... 335
     features = {str(idx): [] for idx in range(336)}
@@ -28,6 +20,9 @@ def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
     else:
         dataset = tf.data.Dataset.from_tensor_slices((dict(features), labels))
 
+    if shuffle:
+        dataset.shuffle(len(features['0']))
+
     return dataset.batch(batch_size)
 
 
@@ -37,11 +32,11 @@ class Net:
 
     def __init__(self, feature_cols=__feature_cols):
         self.__regressor = tf.estimator.DNNRegressor(feature_columns=feature_cols,
-                                                     hidden_units=[2],
+                                                     hidden_units=[75, 75],
                                                      model_dir='tf_pywatts_model')
 
-    def train(self, training_data, training_results, steps):
-        self.__regressor.train(input_fn=lambda: pywatts_input_fn(training_data, y=training_results, num_epochs=None, shuffle=True, batch_size=1), steps=steps)
+    def train(self, training_data, training_results, batch_size, steps):
+        self.__regressor.train(input_fn=lambda: pywatts_input_fn(training_data, y=training_results, num_epochs=None, shuffle=True, batch_size=batch_size), steps=steps)
 
     def evaluate(self, eval_data, eval_results):
         return self.__regressor.evaluate(input_fn=lambda: pywatts_input_fn(eval_data, y=eval_results, num_epochs=1, shuffle=False), steps=1)

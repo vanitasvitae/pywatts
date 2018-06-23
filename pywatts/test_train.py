@@ -3,12 +3,12 @@ import tensorflow as tf
 import pywatts.db
 from pywatts.main import *
 
-NUM_STATIONS_FROM_DB = 50
-NUM_TRAIN_STATIONS = 1
-NUM_EVAL_STATIONS = 1
+NUM_STATIONS_FROM_DB = 75
+NUM_TRAIN_STATIONS = 60
+NUM_EVAL_STATIONS = 15
 TRAIN = True
 PLOT = True
-TRAIN_STEPS = 1
+TRAIN_STEPS = 10
 
 
 df = pywatts.db.rows_to_df(list(range(1, NUM_STATIONS_FROM_DB)))
