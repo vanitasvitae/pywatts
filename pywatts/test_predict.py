@@ -19,5 +19,6 @@ n = pywatts.neural.Net(feature_cols=feature_col)
 prediction = predict(n, pred_query)
 
 print(prediction)
+print(pred_result)
 
 pywatts.main.eval_prediction(prediction, pred_result)
