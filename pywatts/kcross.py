@@ -24,15 +24,8 @@ def split(data, k):
 
     bucketsize = int(len(samples) / k)
 
-    print(k)
-    print(len(data))
-    print(len(samples))
-    print(bucketsize)
-
     # K steps
     for i in range(k):
-        eval_dict = []
-        train_dict = []
         eval_samples = []
         train_samples = []
         for j in range(k):
@@ -41,19 +34,18 @@ def split(data, k):
             else:
                 train_samples.extend(samples[i*bucketsize:(i+1)*bucketsize])
 
-        for s in eval_samples:
-            # Create new dictionaries in the eval lists
-            X_eval.append({'dc': s[:-1]})
-            y_eval.append({'dc': s[-1]})
+        # Create new dictionaries in the eval lists
+        X_eval.append({'dc': eval_samples[:-1]})
+        y_eval.append({'dc': eval_samples[-1]})
 
-        for s in train_samples:
-            X_train.append({'dc': s[:-1]})
-            y_train.append({'dc': s[-1]})
+        X_train.append({'dc': train_samples[:-1]})
+        y_train.append({'dc': train_samples[-1]})
 
-        print(len(X_train) / 12)
-        #print(X_train)
-        #print(y_train)
-        exit(0)
+    print(len(X_eval))
+    print(len(y_eval))
+
+    print(len(X_train))
+    print(len(y_train))
 
     return X_train, y_train, X_eval, y_eval
 

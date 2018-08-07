@@ -25,7 +25,7 @@ n = pywatts.neural.Net(feature_cols=feature_col)
 (X_train, y_train, X_eval, y_eval) = kcross.split(df, K)
 
 
-train_eval = {}
+#train_eval = {}
 
 if TRAIN:
     # Train the model with the steps given
