@@ -3,7 +3,12 @@ from peewee import *
 from playhouse import sqlite_ext
 from playhouse.sqlite_ext import SqliteExtDatabase
 
-db = SqliteExtDatabase('pywatts.db')
+import os.path
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "../pywatts.db")
+print(db_path)
+db = SqliteExtDatabase(db_path)
 
 
 class WeatherStation(Model):

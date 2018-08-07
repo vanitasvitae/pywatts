@@ -22,23 +22,38 @@ def split(data, k):
     # Randomly shuffle samples
     random.shuffle(samples)
 
-    for i in range(0, len(samples), k):
-        # Create new dictionaries in the eval lists
-        X_eval.append({'dc': [x for x in itertools.chain(samples[i:i+k])]})
-        y_eval.append({'dc': []})
+    bucketsize = int(len(samples) / k)
 
+    print(k)
+    print(len(data))
+    print(len(samples))
+    print(bucketsize)
 
-    for i in range(len(X_eval)):
-        X_train.append({'dc': []})
-        y_train.append({'dc': []})
-        for c, d in enumerate(X_eval):
-            if c != i:
-                X_train[i]['dc'].extend(d['dc'])
-                y_train[i]['dc'].append(y_eval[c]['dc'])
+    # K steps
+    for i in range(k):
+        eval_dict = []
+        train_dict = []
+        eval_samples = []
+        train_samples = []
+        for j in range(k):
+            if j == i:
+                eval_samples.extend(samples[i*bucketsize:(i+1)*bucketsize])
+            else:
+                train_samples.extend(samples[i*bucketsize:(i+1)*bucketsize])
 
-    print(X_train)
-    print(y_train)
-    exit(0)
+        for s in eval_samples:
+            # Create new dictionaries in the eval lists
+            X_eval.append({'dc': s[:-1]})
+            y_eval.append({'dc': s[-1]})
+
+        for s in train_samples:
+            X_train.append({'dc': s[:-1]})
+            y_train.append({'dc': s[-1]})
+
+        print(len(X_train) / 12)
+        #print(X_train)
+        #print(y_train)
+        exit(0)
 
     return X_train, y_train, X_eval, y_eval
 
