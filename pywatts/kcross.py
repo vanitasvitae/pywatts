@@ -30,22 +30,32 @@ def split(data, k):
         train_samples = []
         for j in range(k):
             if j == i:
-                eval_samples.extend(samples[i*bucketsize:(i+1)*bucketsize])
+                eval_samples.extend(samples[j*bucketsize:(j+1)*bucketsize])
             else:
-                train_samples.extend(samples[i*bucketsize:(i+1)*bucketsize])
+                train_samples.extend(samples[j*bucketsize:(j+1)*bucketsize])
 
         # Create new dictionaries in the eval lists
-        X_eval.append({'dc': eval_samples[:-1]})
-        y_eval.append({'dc': eval_samples[-1]})
+        #X_eval.append({'dc': eval_samples[:-1]})
+        #y_eval.append({'dc': eval_samples[-1]})
+        X_eval.append({'dc': [x for s in eval_samples for c, x in enumerate(s, 1) if c % 337 != 0]})
+        y_eval.append({'dc': [x for s in eval_samples for c, x in enumerate(s, 1) if c % 337 == 0]})
 
-        X_train.append({'dc': train_samples[:-1]})
-        y_train.append({'dc': train_samples[-1]})
+        #X_train.append({'dc': train_samples[:-1]})
+        #y_train.append({'dc': train_samples[-1]})
+        X_train.append({'dc': [x for s in train_samples for c, x in enumerate(s, 1) if c % 337 != 0]})
+        y_train.append({'dc': [x for s in train_samples for c, x in enumerate(s, 1) if c % 337 == 0]})
 
-    print(len(X_eval))
-    print(len(y_eval))
-
-    print(len(X_train))
-    print(len(y_train))
+    #print(len(X_eval))
+    #print(len(y_eval))
+    #print(len(X_train))
+    #print(len(y_train))
+    #print(len(X_train[0]['dc']))
+    #print(len(y_train[0]['dc']))
+    #print(len(X_eval[0]['dc']))
+    #print(len(y_eval[0]['dc']))
+    #print(X_train)
+    #print(y_train)
+    #exit(0)
 
     return X_train, y_train, X_eval, y_eval
 
@@ -56,12 +66,10 @@ def train(nn, X_train, y_train, X_eval, y_eval, steps=10):
     for count, train_data in enumerate(X_train):
         for i in range(steps):
             nn.train(train_data, y_train[count], batch_size=int(len(train_data['dc'])/336), steps=1)
-            print(X_eval[count])
-            print(len(X_eval[count]['dc']))
-            print(y_eval[count])
             evaluation.append(nn.evaluate(X_eval[count], y_eval[count], batch_size=int(len(X_eval[count]['dc'])/336)))
             print("Training %s: %s/%s" % (count, (i+1), steps))
 
+    return evaluation
 
 
 
