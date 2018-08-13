@@ -35,27 +35,11 @@ def split(data, k):
                 train_samples.extend(samples[j*bucketsize:(j+1)*bucketsize])
 
         # Create new dictionaries in the eval lists
-        #X_eval.append({'dc': eval_samples[:-1]})
-        #y_eval.append({'dc': eval_samples[-1]})
         X_eval.append({'dc': [x for s in eval_samples for c, x in enumerate(s, 1) if c % 337 != 0]})
         y_eval.append({'dc': [x for s in eval_samples for c, x in enumerate(s, 1) if c % 337 == 0]})
 
-        #X_train.append({'dc': train_samples[:-1]})
-        #y_train.append({'dc': train_samples[-1]})
         X_train.append({'dc': [x for s in train_samples for c, x in enumerate(s, 1) if c % 337 != 0]})
         y_train.append({'dc': [x for s in train_samples for c, x in enumerate(s, 1) if c % 337 == 0]})
-
-    #print(len(X_eval))
-    #print(len(y_eval))
-    #print(len(X_train))
-    #print(len(y_train))
-    #print(len(X_train[0]['dc']))
-    #print(len(y_train[0]['dc']))
-    #print(len(X_eval[0]['dc']))
-    #print(len(y_eval[0]['dc']))
-    #print(X_train)
-    #print(y_train)
-    #exit(0)
 
     return X_train, y_train, X_eval, y_eval
 
