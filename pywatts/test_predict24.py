@@ -1,6 +1,6 @@
 import tensorflow as tf
 import pywatts.db
-from pywatts.main import *
+from pywatts.routines import *
 import matplotlib.pyplot as pp
 
 

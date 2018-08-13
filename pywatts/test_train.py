@@ -1,7 +1,7 @@
 import peewee
 import tensorflow as tf
 import pywatts.db
-from pywatts.main import *
+from pywatts.routines import *
 
 NUM_STATIONS_FROM_DB = 75
 NUM_TRAIN_STATIONS = 400
@@ -43,7 +43,7 @@ if TRAIN:
 
 if PLOT:
     # Plot training success rate (with 'average loss')
-    pywatts.main.plot_training(train_eval)
+    pywatts.routines.plot_training(train_eval)
 
 
 exit()

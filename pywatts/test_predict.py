@@ -1,11 +1,11 @@
 import tensorflow as tf
 import pywatts.db
-from pywatts.main import *
+from pywatts.routines import *
 
 
 PREDICT_QUERY = "query-sample_1hour.json"
 PREDICT_RESULT = PREDICT_QUERY.replace("query", "result")
-QUERY_ID = 1
+QUERY_ID = 0
 
 
 pred_query = input_query("../sample_data/" + PREDICT_QUERY, QUERY_ID)
@@ -21,4 +21,4 @@ prediction = predict(n, pred_query)
 print(prediction)
 print(pred_result)
 
-pywatts.main.eval_prediction(prediction, pred_result)
+pywatts.routines.eval_prediction(prediction, pred_result)

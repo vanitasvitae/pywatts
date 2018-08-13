@@ -75,7 +75,8 @@ def predict24h(nn, X_pred):
 
     for i in range(24):
         pred = nn.predict1h(pandas.DataFrame.from_dict(input))
-        predictions.extend(list([p['predictions'][0] for p in pred]))
+        # Cap prediction to 0
+        predictions.extend(list([max(p['predictions'][0], 0) for p in pred]))
         # Remove first value and append predicted value
         del input['dc'][0]
         input['dc'].append(predictions[-1])
