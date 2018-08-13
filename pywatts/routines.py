@@ -64,7 +64,8 @@ def plot_training(evaluation):
 
 def predict(nn, X_pred):
     pred = nn.predict1h(X_pred)
-    predictions = np.array([p['predictions'] for p in pred])
+    # Cap results to 0
+    predictions = np.array([max(p['predictions'], 0) for p in pred])
     return predictions
 
 
@@ -80,7 +81,7 @@ def predict24h(nn, X_pred):
         # Remove first value and append predicted value
         del input['dc'][0]
         input['dc'].append(predictions[-1])
-        print(input)
+        print("Prediction for hour %d/%d" % (i+1, 24))
 
     return predictions
 
