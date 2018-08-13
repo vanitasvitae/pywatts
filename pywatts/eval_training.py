@@ -54,15 +54,21 @@ if TRAIN:
                 pp.plot(pred_result, 'black')
 
             pp.plot(prediction, color=color_gradient_base)
+            pp.savefig(FIGURE_OUTPUT_DIR+'{}.pdf'.format(q), orientation='landscape')
 
         color_gradient_base = tuple([sum(x) for x in zip(color_gradient_base, color_step_width)])
 
     for i in range(NUM_QUERIES):
-        pp.figure(i)
-        pp.savefig(FIGURE_OUTPUT_DIR+'{}.pdf'.format(i), orientation='landscape')
+        pp.close(i)
 
     if PLOT:
         # Plot training success rate (with 'average loss')
-        pywatts.routines.plot_training(train_eval)
+        loss = []
+        for e in train_eval:
+            loss.append(e['average_loss'])
+
+        pp.plot(loss)
+        # Needed for execution in PyCharm
+        pp.show()
 
 exit()
