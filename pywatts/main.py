@@ -68,6 +68,22 @@ def predict(nn, X_pred):
     return predictions
 
 
+def predict24h(nn, X_pred):
+    predictions = []
+
+    input = {'dc': X_pred['dc'].tolist()}
+
+    for i in range(24):
+        pred = nn.predict1h(pandas.DataFrame.from_dict(input))
+        predictions.extend(list([p['predictions'][0] for p in pred]))
+        # Remove first value and append predicted value
+        del input['dc'][0]
+        input['dc'].append(predictions[-1])
+        print(input)
+
+    return predictions
+
+
 def eval_prediction(prediction, result):
     print("The Explained Variance: %.2f" % explained_variance_score(
         result, prediction))

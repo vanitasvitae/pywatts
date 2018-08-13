@@ -6,7 +6,6 @@ import tensorflow as tf
 def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
     # Create dictionary for features in hour 0 ... 335
     features = {str(idx): [] for idx in range(336)}
-    #dc_values = X['dc'].tolist()
     dc_values = X['dc']
 
     # Iterate the empty dictionary always adding the idx-th element from the dc_values list
@@ -15,7 +14,6 @@ def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
 
     labels = None
     if y is not None:
-        #labels = y['dc'].values
         labels = y['dc']
 
     if labels is None:
@@ -24,9 +22,11 @@ def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
         dataset = tf.data.Dataset.from_tensor_slices((dict(features), labels))
 
     if shuffle:
-        dataset.shuffle(len(features['0']))
+        dataset.shuffle(len(features['0']*len(features)*4))
 
-    return dataset.batch(batch_size)
+        return dataset.repeat().batch(batch_size)
+    else:
+        return dataset.batch(batch_size)
 
 
 class Net:
