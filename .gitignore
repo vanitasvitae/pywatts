@@ -111,3 +111,6 @@ venv.bak/
 
 # Tensorflow Model
 tf_pywatts_model/
+
+# Tensorboard
+pywatts/tensorboard
