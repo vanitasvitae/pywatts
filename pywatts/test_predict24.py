@@ -25,5 +25,3 @@ print(pred_result)
 pp.plot(pred_result, 'black')
 pp.plot(prediction, 'red')
 pp.show()
-
-#pywatts.main.eval_prediction(prediction, pred_result)
