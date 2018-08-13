@@ -35,7 +35,7 @@ if TRAIN:
 
 if PLOT:
     # Plot training success rate (with 'average loss')
-    pywatts.main.plot_training(train_eval)
+    pywatts.routines.plot_training(train_eval)
 
 
 exit()
