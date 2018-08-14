@@ -114,3 +114,6 @@ tf_pywatts_model/
 
 # Tensorboard
 pywatts/tensorboard
+
+# Figures
+figures/
