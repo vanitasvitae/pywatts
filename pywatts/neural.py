@@ -22,7 +22,7 @@ def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
         dataset = tf.data.Dataset.from_tensor_slices((dict(features), labels))
 
     if shuffle:
-        return dataset.shuffle(len(features['0']*batch_size*4)).repeat().batch(batch_size)
+        return dataset.shuffle(len(features['0']*len(features)*4)).repeat().batch(batch_size)
     else:
         return dataset.batch(batch_size)
 
