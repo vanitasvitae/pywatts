@@ -36,6 +36,18 @@ def input_query(json_str, idx=0):
          'wind': tmp_df['wind'][idx]}
     )
 
+def input_queries(json_str):
+    tmp_df = pandas.read_json(json_str)
+
+    queries = []
+    for i in range(len(tmp_df)):
+        queries.append(pandas.DataFrame.from_dict(
+            {'dc': tmp_df['dc'][i],
+             'temp': tmp_df['temp'][i],
+             'wind': tmp_df['wind'][i]}
+        ))
+    return queries
+
 
 def input_result(json_str, idx=0):
     tmp_df = pandas.read_json(json_str)
@@ -81,7 +93,7 @@ def predict24h(nn, X_pred):
         # Remove first value and append predicted value
         del input['dc'][0]
         input['dc'].append(predictions[-1])
-        print("Prediction for hour %d/%d" % (i+1, 24))
+        # print("Prediction for hour %d/%d" % (i+1, 24))
 
     return predictions
 
@@ -94,3 +106,9 @@ def eval_prediction(prediction, result):
     print("The Median Absolute Error: %.2f volt dc" % median_absolute_error(
         result, prediction))
 
+def jsonify(predictions):
+    json_out = "["
+    for v in predictions:
+        json_out += "[" + str(v) + "],"
+    json_out = json_out[:-1] + "]"
+    return json_out

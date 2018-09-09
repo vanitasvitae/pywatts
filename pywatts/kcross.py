@@ -1,6 +1,4 @@
 import random
-import itertools
-from pywatts import db
 
 
 def split(data, k):
@@ -18,7 +16,7 @@ def split(data, k):
     data_list = data['dc'].tolist()
 
     # Each sample has 337 elements
-    samples = [data_list[i:i+337] for i in range(0, len(data_list) - 337, 337)]
+    samples = [data_list[i:i+337] for i in range(0, len(data_list) - 337)]
     # Randomly shuffle samples
     random.shuffle(samples)
 
