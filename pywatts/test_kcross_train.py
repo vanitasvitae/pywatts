@@ -4,11 +4,11 @@ import pywatts.db
 from pywatts import kcross
 
 NUM_STATIONS_FROM_DB = 75
-K = 4
+K = 10
 NUM_EVAL_STATIONS = 40
 TRAIN = True
 PLOT = True
-TRAIN_STEPS = 4
+TRAIN_STEPS = 20
 
 
 df = pywatts.db.rows_to_df(list(range(1, NUM_STATIONS_FROM_DB)))
