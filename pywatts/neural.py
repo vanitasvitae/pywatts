@@ -19,6 +19,9 @@ def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
     else:
         dataset = tf.data.Dataset.from_tensor_slices((dict(features), labels))
 
+    if num_epochs is not None:
+        return dataset.batch(len(features['0']))
+
     if shuffle:
         return dataset.shuffle(len(features['0']*len(features)*4)).repeat().batch(batch_size)
     else:
@@ -31,7 +34,7 @@ class Net:
 
     def __init__(self, feature_cols=__feature_cols):
         self.__regressor = tf.estimator.DNNRegressor(feature_columns=feature_cols,
-                                                     hidden_units=[64, 128, 64],
+                                                     hidden_units=[128, 512, 128],
                                                      model_dir='tf_pywatts_model')
 
     def train(self, training_data, training_results, batch_size, steps):

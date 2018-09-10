@@ -8,7 +8,7 @@ K = 10
 NUM_EVAL_STATIONS = 40
 TRAIN = True
 PLOT = True
-TRAIN_STEPS = 20
+TRAIN_STEPS = 10
 
 
 df = pywatts.db.rows_to_df(list(range(1, NUM_STATIONS_FROM_DB)))

@@ -16,7 +16,7 @@ def split(data, k):
     data_list = data['dc'].tolist()
 
     # Each sample has 337 elements
-    samples = [data_list[i:i+337] for i in range(0, len(data_list) - 337, 20)]
+    samples = [data_list[i:i+337] for i in range(0, len(data_list) - 337, 30)]
     # Randomly shuffle samples
     random.shuffle(samples)
 
@@ -42,13 +42,13 @@ def split(data, k):
     return X_train, y_train, X_eval, y_eval
 
 
-def train(nn, X_train, y_train, X_eval, y_eval, steps=10):
+def train(nn, X_train, y_train, X_eval, y_eval, steps=100):
     """Trains the Network nn using k-cross-validation"""
     evaluation = []
     for count, train_data in enumerate(X_train):
         for i in range(steps):
-            nn.train(train_data, y_train[count], batch_size=30, steps=100) #batch_size=int(len(train_data['dc'])/336), steps=1)
-            evaluation.append(nn.evaluate(X_eval[count], y_eval[count], batch_size=int(len(X_eval[count]['dc'])/336)))
+            nn.train(train_data, y_train[count], batch_size=1000, steps=30) #batch_size=int(len(train_data['dc'])/336), steps=1)
+            evaluation.append(nn.evaluate(X_eval[count], y_eval[count]))
             print("Training %s: %s/%s" % (count, (i+1), steps))
 
     return evaluation

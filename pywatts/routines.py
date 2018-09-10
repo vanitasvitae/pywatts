@@ -66,10 +66,12 @@ def train(nn, X_train, y_train, X_val, y_val, steps=100):
 
 def plot_training(evaluation):
     loss = []
+    steps = []
     for e in evaluation:
-        loss.append(e['average_loss'])
+        loss.append(e['loss'])
+        steps.append(e['global_step'])
 
-    pp.plot(loss)
+    pp.plot(steps, loss)
     # Needed for execution in PyCharm
     pp.show()
 

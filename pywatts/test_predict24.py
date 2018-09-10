@@ -6,7 +6,7 @@ import matplotlib.pyplot as pp
 
 PREDICT_QUERY = "query-sample_24hour.json"
 PREDICT_RESULT = PREDICT_QUERY.replace("query", "result")
-QUERY_ID = 4
+QUERY_ID = 0
 
 
 pred_query = input_query("../sample_data/" + PREDICT_QUERY, QUERY_ID)
