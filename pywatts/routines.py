@@ -39,6 +39,12 @@ def input_query(json_str, idx=0):
 def input_queries(json_str):
     tmp_df = pandas.read_json(json_str)
 
+    oneH = False
+    try:
+        s = tmp_df['max_temp'][0]
+    except KeyError:
+        oneH = True
+
     queries = []
     for i in range(len(tmp_df)):
         queries.append(pandas.DataFrame.from_dict(
@@ -46,7 +52,7 @@ def input_queries(json_str):
              'temp': tmp_df['temp'][i],
              'wind': tmp_df['wind'][i]}
         ))
-    return queries
+    return oneH, queries
 
 
 def input_result(json_str, idx=0):
