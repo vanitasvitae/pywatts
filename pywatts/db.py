@@ -34,21 +34,14 @@ class Result(Model):
 
 
 def rows_to_df(indices):
-    temps = []
     dcs = []
-    winds = []
 
     db.connect()
 
     for result in Result.select().where(Result.id << indices):
-        temps += result.temperature
         dcs += result.dc_output
-        winds += result.wind_speed
 
     db.close()
 
     return pd.DataFrame(
-        {'temp': temps,
-         'dc': dcs,
-         'wind': winds
-         })
+        {'dc': dcs})

@@ -9,7 +9,7 @@ from random import randint
 
 def train_split(data, size):
     used_idxs = []
-    X_values = {'dc': [], 'temp': [], 'wind': []}
+    X_values = {'dc': []}
     y_values = []
     for i in range(size):
         rnd_idx = randint(0, data.size / data.shape[1] - 337)
@@ -20,8 +20,6 @@ def train_split(data, size):
             used_idxs.append(rnd_idx)
 
         X_values['dc'].extend(data['dc'][rnd_idx:rnd_idx + 336].tolist())
-        X_values['temp'].extend(data['temp'][rnd_idx:rnd_idx + 336].tolist())
-        X_values['wind'].extend(data['wind'][rnd_idx:rnd_idx + 336].tolist())
         y_values.append(data['dc'][rnd_idx + 337].tolist())
 
     return pandas.DataFrame.from_dict(X_values), pandas.DataFrame.from_dict({'dc': y_values})
@@ -31,9 +29,7 @@ def input_query(json_str, idx=0):
     tmp_df = pandas.read_json(json_str)
 
     return pandas.DataFrame.from_dict(
-        {'dc': tmp_df['dc'][idx],
-         'temp': tmp_df['temp'][idx],
-         'wind': tmp_df['wind'][idx]}
+        {'dc': tmp_df['dc'][idx]}
     )
 
 def input_queries(json_str):
@@ -48,9 +44,7 @@ def input_queries(json_str):
     queries = []
     for i in range(len(tmp_df)):
         queries.append(pandas.DataFrame.from_dict(
-            {'dc': tmp_df['dc'][i],
-             'temp': tmp_df['temp'][i],
-             'wind': tmp_df['wind'][i]}
+            {'dc': tmp_df['dc'][i]}
         ))
     return oneH, queries
 
@@ -85,7 +79,7 @@ def plot_training(evaluation):
 def predict(nn, X_pred):
     pred = nn.predict1h(X_pred)
     # Cap results to 0
-    predictions = np.array([max(p['predictions'], 0) for p in pred])
+    predictions = np.array([max(p['predictions'], [0]) for p in pred])
     return predictions
 
 

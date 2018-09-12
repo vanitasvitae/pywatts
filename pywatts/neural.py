@@ -30,11 +30,11 @@ def pywatts_input_fn(X, y=None, num_epochs=None, shuffle=True, batch_size=1):
 
 class Net:
     __regressor = None
-    __feature_cols = [tf.feature_column.numeric_column(col) for col in ['dc', 'temp', 'wind']]
+    __feature_cols = [tf.feature_column.numeric_column(col) for col in ['dc']]
 
     def __init__(self, feature_cols=__feature_cols):
         self.__regressor = tf.estimator.DNNRegressor(feature_columns=feature_cols,
-                                                     hidden_units=[128, 512, 128],
+                                                     hidden_units=[64, 128, 64],
                                                      model_dir='tf_pywatts_model')
 
     def train(self, training_data, training_results, batch_size, steps):

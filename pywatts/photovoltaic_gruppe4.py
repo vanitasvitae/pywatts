@@ -10,7 +10,7 @@ from pywatts.routines import *
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 if len(sys.argv) != 2:
-    print("Usage: python photovoltaic_gruppe1.py <file.json>")
+    print("Usage: python photovoltaic_gruppe4.py <file.json>")
     exit(1)
 
 json_file = sys.argv[1]  # json file

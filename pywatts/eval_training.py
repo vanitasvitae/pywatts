@@ -4,13 +4,13 @@ from pywatts.routines import *
 from pywatts import kcross
 
 NUM_STATIONS_FROM_DB = 75
-K = 2
+K = 10
 NUM_EVAL_STATIONS = 40
 TRAIN = True
 PLOT = True
-TRAIN_STEPS = 1
-TOTAL_STEPS = 2
-NUM_QUERIES = 1
+TRAIN_STEPS = 10
+TOTAL_STEPS = 6
+NUM_QUERIES = 5
 PREDICT_QUERY = "query-sample_24hour.json"
 PREDICT_RESULT = PREDICT_QUERY.replace("query", "result")
 FIGURE_OUTPUT_DIR = "../figures/"
