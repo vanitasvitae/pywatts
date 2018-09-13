@@ -43,4 +43,4 @@ for idx, query in enumerate(queries):
 print(predictions, file=open("test_data_gruppe4.json", "w"))
 
 sys.stdout.write("\r")
-print("Done!")
+print("[ ==================== ] 100.00%")
