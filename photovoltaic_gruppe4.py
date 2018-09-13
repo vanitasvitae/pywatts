@@ -21,9 +21,26 @@ feature_col = [tf.feature_column.numeric_column(str(idx)) for idx in range(336)]
 n = pywatts.neural.Net(feature_cols=feature_col)
 
 predictions = []
-for query in queries:
+total = len(queries)
+for idx, query in enumerate(queries):
+
+    percent = idx / total
+    sys.stdout.write("\r")
+    progress = ""
+    for i in range(20):
+        if i < int(20 * percent):
+            progress += "="
+        else:
+            progress += " "
+    sys.stdout.write("[ %s ] %.2f%%" % (progress, percent * 100))
+    sys.stdout.flush()
+
     if oneH:
         predictions.extend(predict(n, query).astype('Float64').tolist())
     else:
         predictions.append(predict24h(n, query))
+
 print(predictions, file=open("test_data_gruppe4.json", "w"))
+
+sys.stdout.write("\r")
+print("Done!")
