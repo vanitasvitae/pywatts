@@ -26,4 +26,4 @@ for query in queries:
         predictions.extend(predict(n, query).astype('Float64').tolist())
     else:
         predictions.append(predict24h(n, query))
-print(predictions)
+print(predictions, file=open("test_data_gruppe4.json", "w"))
